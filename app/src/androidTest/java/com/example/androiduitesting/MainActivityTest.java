@@ -86,4 +86,61 @@ public class MainActivityTest {
 
         onData(is(instanceOf(String.class))).inAdapterView(withId(R.id.city_list)).atPosition(0).check(matches((withText("Edmonton"))));
     }
+
+    @Test
+    public void testActivitySwitch(){
+        // add first city to the list
+        onView(withId(R.id.button_add)).perform(click());
+
+        // type 'Edmonton' in the EditText
+        onView(withId(R.id.editText_name)).perform(ViewActions.typeText("Edmonton"));
+
+        // click on confirm
+        onView(withId(R.id.button_confirm)).perform(click());
+
+        // click on city to ShowActivity
+        onView(withText("Edmonton")).perform(click());
+
+        // check that 'Edmonton' is displayed
+        onView(withId(R.id.city_name)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testConsistency(){
+        // add first city to the list
+        onView(withId(R.id.button_add)).perform(click());
+
+        // type 'Edmonton' in the EditText
+        onView(withId(R.id.editText_name)).perform(ViewActions.typeText("Vancouver"));
+
+        // click on confirm
+        onView(withId(R.id.button_confirm)).perform(click());
+
+        // click on city to ShowActivity
+        onView(withText("Vancouver")).perform(click());
+
+        // check that 'Vancouver' is displayed
+        onView(withId(R.id.city_name)).check(matches(withText("Vancouver")));
+    }
+
+    @Test
+    public void testBackButton(){
+        // add first city to the list
+        onView(withId(R.id.button_add)).perform(click());
+
+        // type 'Edmonton' in the EditText
+        onView(withId(R.id.editText_name)).perform(ViewActions.typeText("Edmonton"));
+
+        // click on confirm
+        onView(withId(R.id.button_confirm)).perform(click());
+
+        // click on city to ShowActivity
+        onView(withText("Edmonton")).perform(click());
+
+        // click back button
+        onView(withId(R.id.button_back)).perform(click());
+
+        // verify back to MainActivity
+        onView(withText("Edmonton")).check(matches(isDisplayed()));
+    }
 }
